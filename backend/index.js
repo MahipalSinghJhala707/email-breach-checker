@@ -1,3 +1,5 @@
+require('dotenv').config(); // Load .env variables
+
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -9,21 +11,22 @@ const PORT = 5000;
 app.use(cors());
 app.use(bodyParser.json());
 
-// MongoDB connection
-mongoose.connect('mongodb://localhost:27017/breach_db', {
+// MongoDB connection using .env
+mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
+  useUnifiedTopology: true
+}).then(() => {
+  console.log("MongoDB connected");
+}).catch((err) => {
+  console.error("MongoDB connection error:", err);
 });
-
-const db = mongoose.connection;
-db.once('open', () => console.log('MongoDB connected'));
 
 // Mongoose schema
 const Breach = mongoose.model('Breach', new mongoose.Schema({
   email: String,
 }));
 
-// API endpoint to check email
+// API endpoint
 app.post('/check', async (req, res) => {
   const { email } = req.body;
   try {
