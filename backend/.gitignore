@@ -1,0 +1,19 @@
+# Node dependencies
+node_modules/
+
+# Output files
+emails.json
+dist/
+build/
+
+# Environment variables
+.env
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS or Editor junk
+.DS_Store
+Thumbs.db
+
